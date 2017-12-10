@@ -1,3 +1,4 @@
+#load pomeroy
 pomeroy <- read.csv("C:/Users/Syncrossus/Documents/GitHub/gordon-pomeroy-visualization/pomeroy-2002-v2_database.txt", header = TRUE, sep = "\t")
 #getting an idea of what pomeroy is like
 View(pomeroy[1:10, 1:10])
@@ -29,6 +30,15 @@ pomeroy[,1]
 
 
 
+#PCA
 pomeroy.pca <- prcomp(pomeroy)
 plot(pomeroy.pca$sdev)
-plot(pomeroy.pca$x[, 1:2], col=ifelse(pomeroy.labels=="MD", 1, 2))
+plot(pomeroy.pca$x[, 1:2], col=as.numeric(as.factor(pomeroy.labels)))
+
+#LDA
+library(MASS)
+pomeroy.lda <- lda(formula=pomeroy.labels~., data = as.data.frame(pomeroy))
+plot(pomeroy.lda, col = as.numeric(as.factor(pomeroy.labels)))
+View(pomeroy.lda$scaling)
+
+
